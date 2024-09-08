@@ -14,13 +14,13 @@ import { SignupValidation } from '@/lib/validation'
 import { z } from 'zod'
 import Loader from '@/components/shared/Loader'
 import { Link, useNavigate } from 'react-router-dom'
-import { createUserAccount } from '@/lib/appwrite/api'
+// import { createUserAccount } from '@/lib/appwrite/api'
 import { useToast } from "@/components/ui/use-toast"
 import { useCreateUserAccount, useSignInAccount } from '@/lib/react-query/queriesAndMutations'
 // import {AuthContext} from '@/context/AuthContext'
-import {createContext, useContext } from 'react'
-import { IUser } from "@/types";
-import { AuthContext } from '@/context/Try'
+// import {createContext, useContext } from 'react'
+// import { IUser } from "@/types";
+// import { AuthContext } from '@/context/Try'
 import { useUserContext } from '@/context/Try'
 
 const SignupForm = () => {
