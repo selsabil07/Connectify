@@ -1,20 +1,18 @@
 import { bottombarLinks } from '@/constants'
-import { INavLink } from '@/types'
-import React from 'react'
+// import { INavLink } from '@/types'
+// import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { NavLink } from 'react-router-dom'
+// import { NavLink } from 'react-router-dom'
 
 const Bottombar = () => {
-  const pathname = useLocation()
+  const location = useLocation()
   return (
 
     <section className='bottom-bar'>
       {bottombarLinks.map((link) => {
 
-    const isActive = pathname === link.route 
-
+const isActive = location.pathname === link.route;
           return (
-             
                   <Link
                       to={link.route} 
                       key= {link.label} 

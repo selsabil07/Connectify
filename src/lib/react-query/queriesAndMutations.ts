@@ -4,7 +4,6 @@ import {
     useMutation,
     useQuery,
     useQueryClient,
-    // useInfiniteQuery
  } from "@tanstack/react-query" 
 import { createPost, createUserAccount, deletePost, deleteSavedPost, getCurrentUser, getInfinitePosts, getPostById, getRecentPosts, getUserById, getUsers, likePost, savePost, searchPosts, signInAccount, signOutAccount, updatePost } from "../appwrite/api";
 import { INewPost, INewUser, IUpdatePost } from "@/types";
@@ -156,25 +155,40 @@ import { QUERY_KEYS } from "./querykeys";
       },
     });
   };
+  const getInfinitePosts = async ({ pageParam = '' }): Promise<Document> => {
+    const response = await fetch(`/api/posts?cursor=${pageParam}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  };
 
+// export const useGetPosts = () => {
+//   return useInfiniteQuery({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//     queryFn: getInfinitePosts,
+//     initialPageParam: 0,
+//     getNextPageParam: (lastPage: any)=> {
 
-  export const useGetPosts = () => {
-    return useInfiniteQuery({
-      queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
-      queryFn: getInfinitePosts ,
-      getNextPageParam: (lastPage) => {
-        // If there's no data, there are no more pages.
-        if (lastPage && lastPage.documents.length === 0) {
-          return null;
-        }
-  
-        // Use the $id of the last document as the cursor.
-        const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
-        return lastId;
-      },
-    });
-  }
-  
+//     }
+//   })
+// }
+export const useGetPosts = () => {
+  return useInfiniteQuery =>({
+    queryKey:  [QUERY_KEYS.GET_INFINITE_POSTS],
+    queryFn: ({ pageParam = '' }) => getInfinitePosts({ pageParam }), // Ensure queryFn returns the correct type
+    getNextPageParam: (lastPage: any) => {
+      // If there's no data or the last page has no documents, stop pagination
+      if (!lastPage || lastPage.documents.length === 0) {
+        return undefined;
+      }
+
+      // Return the ID of the last document as the cursor for the next page
+      const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+      return lastId;
+    },
+  });
+};
   export const useSearchPosts = (searchTerm: string) => {
     return useQuery({
       queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],

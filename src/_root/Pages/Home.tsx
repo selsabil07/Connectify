@@ -1,5 +1,5 @@
 import Loader from "@/components/shared/Loader"
-import RootLayout from "../RootLayout"
+// import RootLayout from "../RootLayout"
 import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutations"
 import PostCard from "@/components/shared/PostCard"
 import { Models } from "appwrite"
@@ -8,7 +8,7 @@ const Home = () => {
   const {
     data: posts,
     isLoading: isPostLoading,
-    isError: isErrorPosts,
+    // isError,
   } = useGetRecentPosts()
   
   return (

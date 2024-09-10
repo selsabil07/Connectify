@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useInView } from "react-intersection-observeR";
+import { useInView } from "react-intersection-observer";
 
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
@@ -49,7 +49,7 @@ const Explore = () => {
 
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts = !shouldShowSearchResults && 
-    posts.pages.every((item) => item.documents.length === 0);
+    posts.pages.every((item) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -90,19 +90,25 @@ const Explore = () => {
       </div>
 
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">
-        {shouldShowSearchResults ? (
-          <SearchResults
-            isSearchFetching={isSearchFetching}
-            searchedPosts={searchedPosts}
-          />
-        ) : shouldShowPosts ? (
-          <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
-        ) : (
-          posts.pages.map((item, index) => (
-            <GridPostList key={`page-${index}`} posts={item.documents} />
-          ))
-        )}
-      </div>
+  {shouldShowSearchResults ? (
+    <SearchResults
+      isSearchFetching={isSearchFetching}
+      searchedPosts={searchedPosts}
+    />
+  ) : shouldShowPosts ? (
+    <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
+  ) : (
+    // Ensure that posts?.pages exists and is an array before mapping
+    posts?.pages?.length > 0 ? (
+      posts.pages.map((item, index) => (
+        <GridPostList key={`page-${index}`} posts={item?.documents || []} />
+      ))
+    ) : (
+      <p className="text-light-4 mt-10 text-center w-full">No posts available</p>
+    )
+  )}
+</div>
+
 
       {hasNextPage && !searchValue && (
         <div ref={ref} className="mt-10">
