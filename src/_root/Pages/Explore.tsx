@@ -49,7 +49,7 @@ const Explore = () => {
 
   const shouldShowSearchResults = searchValue !== "";
   const shouldShowPosts = !shouldShowSearchResults && 
-    posts.pages.every((item) => item?.documents.length === 0);
+    posts.pages.every((item: any) => item?.documents.length === 0);
 
   return (
     <div className="explore-container">
@@ -100,7 +100,7 @@ const Explore = () => {
   ) : (
     // Ensure that posts?.pages exists and is an array before mapping
     posts?.pages?.length > 0 ? (
-      posts.pages.map((item, index) => (
+      posts.pages.map((item:any , index) => (
         <GridPostList key={`page-${index}`} posts={item?.documents || []} />
       ))
     ) : (

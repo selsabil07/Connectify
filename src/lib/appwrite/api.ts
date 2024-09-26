@@ -1,4 +1,4 @@
-import { ID, Query, Storage } from 'appwrite'
+import { ID, Query} from 'appwrite'
 
 import { INewPost, INewUser, IUpdatePost } from '@/types';
 import { account, appwriteConfig, avatars, database, storage } from './config';
