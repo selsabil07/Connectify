@@ -156,51 +156,51 @@ import { QUERY_KEYS } from "./querykeys";
       },
     });
   };
-  interface Document {
-    $id: string;
-    // Add other properties as needed
-  }
 
-  interface DocumentList<T> {
-    documents: T[];
-    total: number; // Example of another property in your response
-  }
 
-// const getInfinitePosts = async ({ pageParam = '' }): Promise<DocumentList<Document>> => {
-//   const response = await fetch(`/api/posts?cursor=${pageParam}`);
-//   if (!response.ok) {
-//     throw new Error('Network response was not ok');
-//   }
-//   return response.json();
-// };
+  // interface Document {
+  //   $id: string;
+  //   // Add other properties as needed
+  // }
 
-// export const useGetPosts = () => {
-//   return useInfiniteQuery({
-//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
-//     queryFn: getInfinitePosts,
-//     initialPageParam: 0,
-//     getNextPageParam: (lastPage: any)=> {
-
-//     }
-//   })
-// }
+  // interface DocumentList<T> {
+  //   documents: T[];
+  //   total: number; // Example of another property in your response
+  // }
 
 export const useGetPosts = () => {
-  return useInfiniteQuery<DocumentList<Document>, Error>({
+  return useInfiniteQuery({
     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
     queryFn: getInfinitePosts,
-    getNextPageParam: (lastPage) => {
-      // If there's no data or the last page has no documents, stop pagination
-      if (!lastPage || lastPage.documents.length === 0) {
-        return undefined;
-      }
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: any)=> {
 
-      // Return the ID of the last document as the cursor for the next page
-      const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
-      return lastId;
-    },
-  });
-};
+      if (!lastPage || lastPage.documents.length === 0) {
+                return undefined;
+              }
+              const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+                    return lastId;
+        
+    }
+  })
+}
+
+// export const useGetPosts = () => {
+//   return useInfiniteQuery<DocumentList<Document>, Error>({
+//     queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+//     queryFn: getInfinitePosts,
+//     getNextPageParam: (lastPage) => {
+//       // If there's no data or the last page has no documents, stop pagination
+//       if (!lastPage || lastPage.documents.length === 0) {
+//         return undefined;
+//       }
+
+//       // Return the ID of the last document as the cursor for the next page
+//       const lastId = lastPage.documents[lastPage.documents.length - 1].$id;
+//       return lastId;
+//     },
+//   });
+// };
 
 
 // export const useGetPosts = () => {
